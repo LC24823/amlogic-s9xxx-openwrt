@@ -28,9 +28,22 @@ echo "DISTRIB_SOURCECODE='lede'" >>package/base-files/files/etc/openwrt_release
 
 # ------------------------------- Other started -------------------------------
 #
+# Mosdns
+rm -rf ./feeds/packages/net/v2ray-geodata
+git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
+rm -rf ./feeds/packages/utils/v2dat
+rm -rf ./feeds/packages/net/mosdns
+cp -rf ../mosdns ./package/luci-app-mosdns
+#
+# Passwall
+cp -rf ../passwall_luci ./package/luci-app-passwall
+cp -rf ../passwall_pkg ./package/passwall-pkg
+rm -rf ./package/passwall-pkg/v2ray-geodata
+sed -i '/gVisor/{n;s/n/y/;}' ./package/passwall-pkg/sing-box/Makefile
+#
 # Add luci-app-amlogic
 rm -rf package/luci-app-amlogic
-git clone https://github.com/ophub/luci-app-amlogic.git package/luci-app-amlogic
+#git clone https://github.com/ophub/luci-app-amlogic.git package/luci-app-amlogic
 #
 # Apply patch
 # git apply ../config/patches/{0001*,0002*}.patch --directory=feeds/luci
